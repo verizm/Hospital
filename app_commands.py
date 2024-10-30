@@ -9,18 +9,18 @@ class ExtendedEnum(Enum):
 
 
 class CommandsRu(ExtendedEnum):
-    GET_STATUS = "узнать статус пациента"
-    STATUS_UP = "повысить статус пациента"
-    STATUS_DOWN = "понизить статус пациента"
-    DISCHARGE = "выписать пациента"
-    CALCULATE_STATISTIC = "рассчитать статистику"
-    STOP = "стоп"
+    get_status = "узнать статус пациента"
+    status_up = "повысить статус пациента"
+    status_down = "понизить статус пациента"
+    discharge = "выписать пациента"
+    calculate_statistics = "рассчитать статистику"
+    stop = "стоп"
 
 
 class CommandsEng(ExtendedEnum):
-    GET_STATUS = "get status"
-    STATUS_UP = "status up"
-    STATUS_DOWN = "status down"
-    DISCHARGE = "discharge"
-    CALCULATE_STATISTIC = "calculate statistics"
-    STOP = "stop"
+    get_status = "get status"
+    status_up = "status up"
+    status_down = "status down"
+    discharge = "discharge"
+    calculate_statistics = "calculate statistics"
+    stop = "stop"

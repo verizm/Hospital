@@ -1,4 +1,4 @@
-from patient_statuses import STATUSES
+from patient_statuses import patient_statuses
 
 
 class PatientDto:
@@ -29,4 +29,4 @@ class PatientDto:
 
     @property
     def status_value(self):
-        return STATUSES[self.__status]
+        return patient_statuses[self.__status]

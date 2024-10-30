@@ -4,12 +4,14 @@ from services.db_service import DbService
 from services.statistic_servise import StatisticService
 from app_exceptions.validators_expection import ValidatorException
 from validators.input_validator import InputValidator
-
-
-status_handler = PatientStatusHandler()
-discharge_handler = DischargePatientHandler()
+from app_commands import (
+    CommandsRu,
+    CommandsEng,
+)
 
 input_validator = InputValidator()
+status_handler = PatientStatusHandler()
+discharge_handler = DischargePatientHandler()
 
 db_service = DbService()
 statistics_service = StatisticService(db_service)
@@ -25,10 +27,11 @@ def main_process() -> bool:
         print(error_message)
         return True
 
-    if command == "стоп" or command == "stop":
+    if command == CommandsRu.stop.value or command == CommandsEng.stop.value:
         print("Сеанс завершён.")
         return False
-    if command == "рассчитать статистику" or command == "calculate statistics":
+
+    if command == CommandsRu.calculate_statistics.value or command == CommandsEng.calculate_statistics.value:
         statistics_service.get_statistic()
         return True
 
@@ -42,26 +45,24 @@ def main_process() -> bool:
     try:
         patient_id = int(patient_id) - 1
         patient_dto = db_service.get_patient_by_id(patient_id)
-        print(db_service.data_base)
         status_handler.handle(command, patient_dto)
+
         if patient_dto.changed:
             db_service.update_patient(patient_dto)
-            print(db_service.data_base)
+
     except ValidatorException as error_message:
         print(error_message)
         return True
-
     return True
 
-
 def generate_data_base() -> list:
-    return [2 for _ in range(200)]
+    return [1 for _ in range(200)]
 
 
 if __name__ == '__main__':
-    result = True
+    in_process = True
     data_base = generate_data_base()
     db_service.set_db(data_base)
 
-    while result:
-        result = main_process()
+    while in_process:
+        in_process = main_process()

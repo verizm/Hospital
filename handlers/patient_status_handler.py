@@ -1,18 +1,22 @@
 from handlers.abstarct_handler import AbstractHandler
 from services.statuse_servise import StatusService
+from services.discharge_service import DischargeService
+from app_commands import CommandsRu, CommandsEng
 from dto.patient import PatientDto
 
 
 class PatientStatusHandler(AbstractHandler):
     def handle(self, command: str, patient: PatientDto) -> None:
         status_service = StatusService(patient)
-        if command == "узнать статус пациента" or command == "get status":
+        if command == CommandsRu.get_status.value or command == CommandsEng.get_status.value:
             status_service.get_status()
 
-        elif command == "повысить статус пациента" or command == "status up":
-            status_service.status_up()
+        elif command == CommandsRu.status_up.value or command == CommandsEng.status_up.value:
+            need_to_discharge = status_service.status_up()
+            if need_to_discharge:
+                DischargeService(patient).discharge()
 
-        elif command == "понизить статус пациента" or command == "status down":
+        elif command == CommandsRu.status_down.value or command == CommandsEng.status_down.value:
             status_service.status_down()
 
         else:
