@@ -6,9 +6,6 @@ class DbService:
     def __init__(self):
         self.__data_base = None
 
-    def get_db(self):
-        return self.__data_base
-
     def set_db(self, data_base: list) -> None:
         if not self.__data_base:
             self.__data_base = data_base

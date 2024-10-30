@@ -4,7 +4,7 @@ from enum import Enum
 class ExtendedEnum(Enum):
 
     @classmethod
-    def list(cls):
+    def values(cls):
         return list(map(lambda item: item.value, cls))
 
 

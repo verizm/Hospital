@@ -1,3 +1,4 @@
+
 from app_commands import (
     CommandsEng,
     CommandsRu,
@@ -6,7 +7,7 @@ from app_exceptions.validators_expection import ValidatorException
 
 
 class InputValidator:
-    COMMANDS = CommandsEng.list() + CommandsRu.list()
+    COMMANDS = [*CommandsEng.values(), *CommandsRu.values()]
 
     @staticmethod
     def check_command(command: str) -> None:
