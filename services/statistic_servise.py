@@ -1,10 +1,9 @@
 from collections import Counter
-from services.db_service import DbService
 from patient_statuses import patient_statuses
 
 
 class StatisticService:
-    def __init__(self, db_service: DbService):
+    def __init__(self, db_service):
         self.db_service = db_service
 
     def _exclude_discharged(self) -> list:
