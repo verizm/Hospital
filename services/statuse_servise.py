@@ -10,7 +10,6 @@ class StatusService:
     def __init__(self, patient_id: str, db_service: DbService):
         self.patient_id = patient_id
         self.db_service = db_service
-        self.patient_dto = self.db_service.get_patient_by_id(self.patient_id)
 
     def get_status(self) -> None:
         patient_dto = self.db_service.get_patient_by_id(self.patient_id)
