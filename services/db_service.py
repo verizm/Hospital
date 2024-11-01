@@ -27,5 +27,5 @@ class DbService:
         status = self.__data_base[patient_index]
         return status
 
-    def get_all_patients(self) -> list:
+    def get_all_statuses(self) -> list:
         return self.__data_base

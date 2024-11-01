@@ -1,4 +1,5 @@
 from services.db_service import DbService
+from services.hospital_service import HospitalService
 from handlers.hospital_handler import HospitalHandler
 from app_exceptions.validators_expection import ValidatorException
 from validators.input_validator import InputValidator
@@ -9,7 +10,8 @@ from app_commands import (
 
 input_validator = InputValidator()
 db_service = DbService()
-hospital_handler = HospitalHandler(db_service)
+hospital_service = HospitalService(db_service)
+hospital_handler = HospitalHandler(hospital_service)
 
 
 def main_process() -> None:
