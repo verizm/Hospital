@@ -1,5 +1,4 @@
 from app_exceptions.validators_expection import ValidatorException
-from dto.patient import PatientDto
 
 
 class DbService:
