@@ -1,11 +1,8 @@
-from validators.input_validator import InputValidator
 from services.hospital_service import HospitalService
 from app_commands import (
     CommandsRu,
     CommandsEng,
 )
-
-input_validator = InputValidator()
 
 
 class HospitalHandler:
