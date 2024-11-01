@@ -18,21 +18,13 @@ class HospitalHandler:
             self.hospital_service.get_statistic()
 
         if command == CommandsRu.discharge.value or command == CommandsEng.discharge.value:
-            patient_id = input(f"Введите ID пациента: ").strip()
-            input_validator.check_patient_id(patient_id)
-            self.hospital_service.discharge(patient_id)
+            self.hospital_service.discharge()
 
         if command == CommandsRu.get_status.value or command == CommandsEng.get_status.value:
-            patient_id = input(f"Введите ID пациента: ").strip()
-            input_validator.check_patient_id(patient_id)
-            self.hospital_service.get_status(patient_id)
+            self.hospital_service.get_status()
 
         if command == CommandsRu.status_up.value or command == CommandsEng.status_up.value:
-            patient_id = input(f"Введите ID пациента: ").strip()
-            input_validator.check_patient_id(patient_id)
-            self.hospital_service.status_up(patient_id)
+            self.hospital_service.status_up()
 
         if command == CommandsRu.status_down.value or command == CommandsEng.status_down.value:
-            patient_id = input(f"Введите ID пациента: ").strip()
-            input_validator.check_patient_id(patient_id)
-            self.hospital_service.status_down(patient_id)
+            self.hospital_service.status_down()
