@@ -57,12 +57,8 @@ class HospitalService:
 
     def discharge(self) -> None:
         patient_id = self._request_patient_id()
-        status_id = self._get_status_id(patient_id)
-        if status_id is None:
-            raise ValidatorException("Ошибка. В больнице нет пациента с таким ID")
-        else:
-            self._update_status(patient_id, status_id=None)
-            print("Пациент выписан из больницы")
+        self._update_status(patient_id, status_id=None)
+        print("Пациент выписан из больницы")
 
     def status_up(self) -> None:
         patient_id = self._request_patient_id()
