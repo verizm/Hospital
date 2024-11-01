@@ -12,35 +12,33 @@ class StatusService:
         self.db_service = db_service
 
     def get_status(self) -> None:
-        patient_dto = self.db_service.get_patient_by_id(self.patient_id)
-        current_status = patient_statuses[patient_dto.status_id]
-        print(f"Cтатус пациента: {current_status}")
+        status_id = self.db_service.get_patient_status_id(self.patient_id)
+        print(f"Cтатус пациента: {patient_statuses[status_id]}")
 
-    def get_new_status(self) -> None:
-        patient_dto = self.db_service.get_patient_by_id(self.patient_id)
-        current_status = patient_statuses[patient_dto.status_id]
-        print(f"Новый статус пациента: {current_status}")
+    @staticmethod
+    def _get_new_status(status_id: int) -> None:
+        print(f"Новый статус пациента: {patient_statuses[status_id]}")
 
     def status_down(self) -> None:
-        patient_dto = self.db_service.get_patient_by_id(self.patient_id)
-        if patient_dto.status_id == PatientStatuses.hard_sick.value:
+        status_id = self.db_service.get_patient_status_id(self.patient_id)
+        if status_id == PatientStatuses.hard_sick.value:
             raise ValidatorException("Ошибка. Нельзя понизить самый низкий статус (наши пациенты не умирают)")
         else:
-            patient_dto.status_id -= 1
-            self.db_service.update_patient(patient_dto)
-            self.get_new_status()
+            status_id -= 1
+            self.db_service.update_patient_status_id(self.patient_id, status_id)
+            self._get_new_status(status_id)
 
     def status_up(self) -> None:
-        patient_dto = self.db_service.get_patient_by_id(self.patient_id)
-        if patient_dto.status_id < PatientStatuses.ready_to_discharge.value:
-            patient_dto.status_id += 1
-            self.db_service.update_patient(patient_dto)
-            self.get_new_status()
+        status_id = self.db_service.get_patient_status_id(self.patient_id)
+
+        if status_id < PatientStatuses.ready_to_discharge.value:
+            status_id += 1
+            self.db_service.update_patient_status_id(self.patient_id, status_id)
+            self._get_new_status(status_id)
         else:
             answer = input("Желаете этого клиента выписать? (да/нет) ").lower()
 
             if answer == "да":
                 DischargeService(self.patient_id, self.db_service).discharge()
             else:
-                status = patient_statuses[patient_dto.status_id]
-                print(f"Пациент остался в статусе '{status}'")
+                print(f"Пациент остался в статусе '{patient_statuses[status_id]}'")
