@@ -7,6 +7,9 @@ class ExtendedEnum(Enum):
     def values(cls):
         return list(map(lambda item: item.value, cls))
 
+commands_types = {
+
+}
 
 class CommandsRu(ExtendedEnum):
     get_status = "узнать статус пациента"
