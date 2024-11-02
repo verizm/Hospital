@@ -8,6 +8,9 @@ class ExtendedEnum(Enum):
         return list(map(lambda item: item.value, cls))
 
 
+UnknownCommand = "unknown"
+
+
 class CommandsRu(ExtendedEnum):
     get_status = "узнать статус пациента"
     status_up = "повысить статус пациента"
