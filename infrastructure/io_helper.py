@@ -1,13 +1,8 @@
 from app_exceptions.validators_expection import ValidatorException
-from hospital_data.app_commands import (
-    CommandsRu,
-    CommandsEng,
-)
 from hospital_data.patient_statuses import patient_statuses
 
 
 class IOHelper:
-    COMMANDS = [*CommandsEng.values(), *CommandsRu.values()]
 
     @staticmethod
     def request_command():
@@ -49,6 +44,10 @@ class IOHelper:
     @staticmethod
     def response_unknown_command():
         print("Неизвестная команда! Попробуйте ещё раз")
+
+    @staticmethod
+    def response_finish():
+        print("Сеанс завершён.")
 
     @staticmethod
     def response_statistic(total: int, sorted_statistic: dict):
