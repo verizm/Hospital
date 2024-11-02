@@ -25,7 +25,7 @@ class HospitalCommand:
             status = self.hospital.get_status(patient_id)
             self.io_helper.response_new_status(status)
         else:
-            print("Ошибка. Нельзя понизить самый низкий статус (наши пациенты не умирают)")
+            self.io_helper.response_status_too_low()
 
     def discharge(self) -> None:
         patient_id = self.io_helper.request_patient_id()

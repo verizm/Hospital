@@ -46,6 +46,10 @@ class IOHelper:
         print(f"Пациент остался в статусе '{status}'")
 
     @staticmethod
+    def response_status_too_low() -> None:
+        print("Ошибка. Нельзя понизить самый низкий статус (наши пациенты не умирают)")
+
+    @staticmethod
     def response_patient_discharged():
         print("Пациент выписан из больницы")
 
