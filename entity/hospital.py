@@ -36,12 +36,12 @@ class Hospital:
     def status_up(self, patient_id: int) -> None:
         patient_index = self._get_patient_index(patient_id)
         status_id = self.hospital_db[patient_index]
-        self._update_status(patient_id, status_id + 1)
+        self._update_status(patient_index, status_id + 1)
 
     def status_down(self, patient_id: int) -> None:
         patient_index = self._get_patient_index(patient_id)
         status_id = self.hospital_db[patient_index]
-        self._update_status(patient_id, status_id - 1)
+        self._update_status(patient_index, status_id - 1)
 
     def discharge(self, patient_id: int) -> None:
         patient_index = self._get_patient_index(patient_id)

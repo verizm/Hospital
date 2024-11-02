@@ -12,10 +12,7 @@ class IOHelper:
     @staticmethod
     def request_command():
         command = input(f"Введите команду: ").strip()
-        if command not in IOHelper.COMMANDS:
-            raise ValidatorException("Неизвестная команда! Попробуйте ещё раз")
-        else:
-            return command
+        return command
 
     @staticmethod
     def request_patient_id() -> int:
@@ -48,6 +45,10 @@ class IOHelper:
     @staticmethod
     def response_patient_discharged():
         print("Пациент выписан из больницы")
+
+    @staticmethod
+    def response_unknown_command():
+        print("Неизвестная команда! Попробуйте ещё раз")
 
     @staticmethod
     def response_statistic(total: int, sorted_statistic: dict):
