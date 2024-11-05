@@ -22,11 +22,11 @@ class HospitalCommands:
             status = self._hospital.get_status(patient_id)
             self._io_helper.response_status(status)
 
-        except UserIdIsNotPositiveIntegerException as id_exception:
-            self._io_helper.response_message(id_exception.message)
+        except UserIdIsNotPositiveIntegerException as invalid_id:
+            self._io_helper.response_message(invalid_id.message)
 
-        except UserIsNotExistsException as user_not_exists_exception:
-            self._io_helper.response_message(user_not_exists_exception.message)
+        except UserIsNotExistsException as user_not_exists:
+            self._io_helper.response_message(user_not_exists.message)
 
     def status_down(self) -> None:
         try:
@@ -39,11 +39,11 @@ class HospitalCommands:
             else:
                 self._io_helper.response_status_too_low()
 
-        except UserIdIsNotPositiveIntegerException as input_exception:
-            self._io_helper.response_message(input_exception.message)
+        except UserIdIsNotPositiveIntegerException as invalid_id:
+            self._io_helper.response_message(invalid_id.message)
 
-        except UserIsNotExistsException as user_not_exists_exception:
-            self._io_helper.response_message(user_not_exists_exception.message)
+        except UserIsNotExistsException as user_not_exists:
+            self._io_helper.response_message(user_not_exists.message)
 
     def discharge(self) -> None:
         try:
@@ -51,11 +51,11 @@ class HospitalCommands:
             self._hospital.discharge(patient_id)
             self._io_helper.response_patient_discharged()
 
-        except UserIdIsNotPositiveIntegerException as input_exception:
-            self._io_helper.response_message(input_exception.message)
+        except UserIdIsNotPositiveIntegerException as invalid_id:
+            self._io_helper.response_message(invalid_id.message)
 
-        except UserIsNotExistsException as user_not_exists_exception:
-            self._io_helper.response_message(user_not_exists_exception.message)
+        except UserIsNotExistsException as user_not_exists:
+            self._io_helper.response_message(user_not_exists.message)
 
     def status_up(self) -> None:
         try:
@@ -73,8 +73,8 @@ class HospitalCommands:
                     status = self._hospital.get_status(patient_id)
                     self._io_helper.response_status_not_changed(status)
 
-        except UserIdIsNotPositiveIntegerException as input_exception:
-            self._io_helper.response_message(input_exception.message)
+        except UserIdIsNotPositiveIntegerException as invalid_id:
+            self._io_helper.response_message(invalid_id.message)
 
-        except UserIsNotExistsException as user_not_exists_exception:
-            self._io_helper.response_message(user_not_exists_exception.message)
+        except UserIsNotExistsException as user_not_exists:
+            self._io_helper.response_message(user_not_exists.message)
