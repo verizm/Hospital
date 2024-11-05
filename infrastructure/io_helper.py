@@ -1,4 +1,4 @@
-from app_exceptions.validators_expection import ValidatorException
+from exceptions.hospital_exception import UserIdIsNotPositiveIntegerException
 from hospital_data.app_commands import (
     CommandsRu,
     CommandsEng,
@@ -21,7 +21,7 @@ class IOHelper:
     def request_patient_id() -> int:
         patient_id = input(f"Введите ID пациента: ").strip()
         if not patient_id.isdigit() or int(patient_id) <= 0:
-            raise ValidatorException("Ошибка. ID пациента должно быть числом (целым, положительным)")
+            raise UserIdIsNotPositiveIntegerException
         return int(patient_id)
 
     @staticmethod
@@ -54,19 +54,19 @@ class IOHelper:
         print("Ошибка. Нельзя понизить самый низкий статус (наши пациенты не умирают)")
 
     @staticmethod
-    def response_patient_discharged():
+    def response_patient_discharged() -> None:
         print("Пациент выписан из больницы")
 
     @staticmethod
-    def response_unknown_command():
+    def response_unknown_command() -> None:
         print("Неизвестная команда! Попробуйте ещё раз")
 
     @staticmethod
-    def response_stop_app():
+    def response_stop_app() -> None:
         print("Сеанс завершён.")
 
     @staticmethod
-    def response_statistic(total: int, sorted_statistic: dict):
+    def response_statistic(total: int, sorted_statistic: dict) -> None:
         print(f"В больнице на данный момент находится {total} чел., из них:")
         for status_id, count_patients in sorted_statistic.items():
             print(f"- в статусе '{patient_statuses[status_id]}': {count_patients} чел.")

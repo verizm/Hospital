@@ -1,5 +1,5 @@
-from hospital_creator import HospitalCreator
-from app_exceptions.validators_expection import ValidatorException
+from use_cases.hospital_command import HospitalCommands
+from infrastructure.io_helper import IOHelper
 from hospital_data.app_commands import (
     UnknownCommand,
     CommandsEng,
@@ -8,28 +8,39 @@ from hospital_data.app_commands import (
 
 
 class Application:
-    def __init__(self, hospital_creator: HospitalCreator):
-        self.hospital_creator = hospital_creator
-        self.__stop_process = False
+    def __init__(self, hospital_command: HospitalCommands, io_helper: IOHelper):
+        self._hospital_command = hospital_command
+        self._io_helper = io_helper
+        self._stop_process = False
 
-    def process(self) -> None:
-        command = self.hospital_creator.io_helper.request_command()
+    def _process(self) -> None:
+        command = self._io_helper.request_command()
+
         if command == UnknownCommand:
-            self.hospital_creator.io_helper.response_unknown_command()
+            self._io_helper.response_unknown_command()
 
-        elif command == CommandsEng.stop.value or command == CommandsRu.stop.value:
-            self.stop()
+        if command == CommandsEng.stop.value or command == CommandsRu.stop.value:
+            self._stop()
 
-        else:
-            try:
-                self.hospital_creator.hospital_handler.map_command(command)
-            except ValidatorException as error_message:
-                self.hospital_creator.io_helper.response_message(error_message)
+        if command == CommandsRu.calculate_statistics.value or command == CommandsEng.calculate_statistics.value:
+            self._hospital_command.get_statistic()
 
-    def stop(self):
-        self.hospital_creator.io_helper.response_stop_app()
-        self.__stop_process = True
+        if command == CommandsRu.discharge.value or command == CommandsEng.discharge.value:
+            self._hospital_command.discharge()
+
+        if command == CommandsRu.get_status.value or command == CommandsEng.get_status.value:
+            self._hospital_command.get_status()
+
+        if command == CommandsRu.status_up.value or command == CommandsEng.status_up.value:
+            self._hospital_command.status_up()
+
+        if command == CommandsRu.status_down.value or command == CommandsEng.status_down.value:
+            self._hospital_command.status_down()
+
+    def _stop(self):
+        self._io_helper.response_stop_app()
+        self._stop_process = True
 
     def run(self):
-        while not self.__stop_process:
-            self.process()
+        while not self._stop_process:
+            self._process()
