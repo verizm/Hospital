@@ -24,7 +24,7 @@ class Application:
             try:
                 self.hospital_creator.hospital_handler.map_command(command)
             except ValidatorException as error_message:
-                print(error_message)
+                self.hospital_creator.io_helper.response_message(error_message)
 
     def stop(self):
         self.hospital_creator.io_helper.response_stop_app()

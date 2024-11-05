@@ -25,6 +25,10 @@ class IOHelper:
         return int(patient_id)
 
     @staticmethod
+    def response_message(message: str) -> None:
+        print(message)
+
+    @staticmethod
     def request_need_to_discharge() -> bool:
         answer_text = input("Желаете этого клиента выписать? (да/нет) ").lower()
         return answer_text == "да"
