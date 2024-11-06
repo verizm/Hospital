@@ -63,12 +63,12 @@ class Hospital:
     def _change_status_id_on_status_value(self, statistic: dict) -> dict:
         return {self._patient_statuses[status_id]: value for status_id, value in statistic.items()}
 
-    def count_statistic_by_patients(self) -> dict:
+    def calculate_statistic_by_patients(self) -> dict:
         current_statuses = self._exclude_discharged_statuses()
         sorted_statistic = dict(sorted(Counter(current_statuses).items(), key=lambda item: item[0]))
         user_readable_statistic = self._change_status_id_on_status_value(sorted_statistic)
         return user_readable_statistic
 
-    def count_current_patients(self) -> int:
+    def calculate_count_current_patients(self) -> int:
         total_count = len(self._exclude_discharged_statuses())
         return total_count
