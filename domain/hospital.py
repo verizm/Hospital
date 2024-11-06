@@ -23,6 +23,7 @@ class Hospital:
 
     def get_status(self, patient_id: int) -> str:
         patient_index = self._convert_patient_id_to_patient_index(patient_id)
+        self._check_patient_is_exists(patient_index)
         status_id = self._hospital_db[patient_index]
         return self._patient_statuses[status_id]
 
