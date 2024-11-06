@@ -48,7 +48,7 @@ class TestHospital:
         assert hospital.calculate_count_current_patients() == len(data_base)
 
     @pytest.mark.parametrize(
-        "statuses_for_update, expected_statistic",
+        "status_indexes, expected_statistic",
         [
             ([2], {'Болен': 199, 'Слегка болен': 1}),
             ([3], {'Болен': 199, 'Готов к выписке': 1}),
@@ -58,10 +58,10 @@ class TestHospital:
 
         ]
     )
-    def test_calculate_statistic_by_patients(self, statuses_for_update, expected_statistic):
+    def test_calculate_statistic_by_patients(self, status_indexes, expected_statistic):
         data_base = [1 for _ in range(200)]
         hospital = Hospital(data_base)
-        for patient_index, status in enumerate(statuses_for_update):
+        for patient_index, status in enumerate(status_indexes):
             data_base[patient_index] = status
 
         statistics = hospital.calculate_statistic_by_patients()
