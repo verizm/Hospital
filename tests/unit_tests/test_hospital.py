@@ -42,10 +42,13 @@ class TestHospital:
     @pytest.mark.parametrize("count_discharged_patients", [0, 1, 199, 200])
     def test_calculate_count_current_patients(self, count_discharged_patients):
         data_base = [1 for _ in range(200)]
+        count_patients_before_discharge = len(data_base)
         hospital = Hospital(data_base)
-        for index in range(count_discharged_patients):
-            data_base.pop()
-        assert hospital.calculate_count_current_patients() == len(data_base)
+        for patient_index in range(count_discharged_patients):
+            data_base[patient_index] = None
+        actual_count_patients = hospital.calculate_count_current_patients()
+        expected_count_patients = count_patients_before_discharge - count_discharged_patients
+        assert actual_count_patients == expected_count_patients
 
     @pytest.mark.parametrize(
         "status_indexes, expected_statistic",
