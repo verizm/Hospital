@@ -1,7 +1,7 @@
-from application import Application
-from entity.hospital import Hospital
-from infrastructure.io_helper import IOHelper
-from use_cases.hospital_command import HospitalCommands
+from controllers.application import Application
+from domain.hospital import Hospital
+from controllers.io_helper import IOHelper
+from domain.hospital_commands import HospitalCommands
 
 if __name__ == '__main__':
     data_base = [1 for _ in range(200)]

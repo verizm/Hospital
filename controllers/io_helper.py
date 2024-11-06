@@ -1,10 +1,9 @@
 from exceptions.hospital_exception import PatientIdIsNotPositiveIntegerError
-from hospital_data.app_commands import (
+from app_commands import (
     CommandsRu,
     CommandsEng,
     UnknownCommand,
 )
-from hospital_data.patient_statuses import patient_statuses
 
 
 class IOHelper:
@@ -25,7 +24,7 @@ class IOHelper:
         return int(patient_id)
 
     @staticmethod
-    def respond_message(message: str):
+    def report_message(message: str):
         print(message)
 
     @staticmethod
@@ -34,39 +33,39 @@ class IOHelper:
         return answer_text == "да"
 
     @staticmethod
-    def respond_patient_not_exists():
+    def report_patient_not_exists():
         print("Ошибка. В больнице нет пациента с таким ID")
 
     @staticmethod
-    def respond_status(status: str):
+    def report_status(status: str):
         print(f"Cтатус пациента: {status}")
 
     @staticmethod
-    def respond_new_status(status: str):
+    def report_new_status(status: str):
         print(f"Новый статус пациента: {status}")
 
     @staticmethod
-    def respond_status_not_changed(status: str):
+    def report_status_not_changed(status: str):
         print(f"Пациент остался в статусе '{status}'")
 
     @staticmethod
-    def respond_status_too_low():
+    def report_status_too_low():
         print("Ошибка. Нельзя понизить самый низкий статус (наши пациенты не умирают)")
 
     @staticmethod
-    def respond_patient_discharged():
+    def report_patient_discharged():
         print("Пациент выписан из больницы")
 
     @staticmethod
-    def respond_unknown_command():
+    def report_unknown_command():
         print("Неизвестная команда! Попробуйте ещё раз")
 
     @staticmethod
-    def respond_stop_app():
+    def report_stop_app():
         print("Сеанс завершён.")
 
     @staticmethod
-    def respond_statistic(total: int, sorted_statistic: dict):
+    def report_statistic(total: int, statistic: dict):
         print(f"В больнице на данный момент находится {total} чел., из них:")
-        for status_id, count_patients in sorted_statistic.items():
-            print(f"- в статусе '{patient_statuses[status_id]}': {count_patients} чел.")
+        for status, count_patients in statistic.items():
+            print(f"- в статусе '{status}': {count_patients} чел.")

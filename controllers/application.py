@@ -1,6 +1,6 @@
-from use_cases.hospital_command import HospitalCommands
-from infrastructure.io_helper import IOHelper
-from hospital_data.app_commands import (
+from domain.hospital_commands import HospitalCommands
+from controllers.io_helper import IOHelper
+from app_commands import (
     UnknownCommand,
     CommandsEng,
     CommandsRu,
@@ -13,11 +13,11 @@ class Application:
         self._io_helper = io_helper
         self._stop_process = False
 
-    def _process(self) -> None:
+    def _process(self):
         command = self._io_helper.request_command()
 
         if command == UnknownCommand:
-            self._io_helper.respond_unknown_command()
+            self._io_helper.report_unknown_command()
 
         if command == CommandsEng.stop.value or command == CommandsRu.stop.value:
             self._stop()
@@ -38,7 +38,7 @@ class Application:
             self._hospital_commands.status_down()
 
     def _stop(self):
-        self._io_helper.respond_stop_app()
+        self._io_helper.report_stop_app()
         self._stop_process = True
 
     def run(self):
