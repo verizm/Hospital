@@ -1,6 +1,6 @@
 from collections import Counter
 
-from exceptions.hospital_exception import UserIsNotExistsException
+from exceptions.hospital_exception import PatientIsNotExistsError
 from hospital_data.patient_statuses import patient_statuses
 from hospital_data.patient_statuses import PatientStatuses
 
@@ -9,13 +9,13 @@ class Hospital:
     def __init__(self, hospital_db: list):
         self._hospital_db = hospital_db
 
-    def _update_status(self, patient_index: int, status_id: int | None) -> None:
+    def _update_status(self, patient_index: int, status_id: int | None):
         self._hospital_db[patient_index] = status_id
 
     def _get_patient_index(self, patient_id: int) -> int:
         patient_index = patient_id - 1
         if len(self._hospital_db) <= int(patient_index) or self._hospital_db[patient_index] is None:
-            raise UserIsNotExistsException
+            raise PatientIsNotExistsError
         return patient_index
 
     def get_status(self, patient_id: int) -> str:
@@ -33,17 +33,17 @@ class Hospital:
         status_id = self._hospital_db[patient_index]
         return status_id < PatientStatuses.ready_to_discharge.value
 
-    def status_up(self, patient_id: int) -> None:
+    def status_up(self, patient_id: int):
         patient_index = self._get_patient_index(patient_id)
         status_id = self._hospital_db[patient_index]
         self._update_status(patient_index, status_id + 1)
 
-    def status_down(self, patient_id: int) -> None:
+    def status_down(self, patient_id: int):
         patient_index = self._get_patient_index(patient_id)
         status_id = self._hospital_db[patient_index]
         self._update_status(patient_index, status_id - 1)
 
-    def discharge(self, patient_id: int) -> None:
+    def discharge(self, patient_id: int):
         patient_index = self._get_patient_index(patient_id)
         self._update_status(patient_index, status_id=None)
 

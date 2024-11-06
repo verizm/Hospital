@@ -8,8 +8,8 @@ from hospital_data.app_commands import (
 
 
 class Application:
-    def __init__(self, hospital_command: HospitalCommands, io_helper: IOHelper):
-        self._hospital_command = hospital_command
+    def __init__(self, hospital_commands: HospitalCommands, io_helper: IOHelper):
+        self._hospital_commands = hospital_commands
         self._io_helper = io_helper
         self._stop_process = False
 
@@ -17,28 +17,28 @@ class Application:
         command = self._io_helper.request_command()
 
         if command == UnknownCommand:
-            self._io_helper.response_unknown_command()
+            self._io_helper.respond_unknown_command()
 
         if command == CommandsEng.stop.value or command == CommandsRu.stop.value:
             self._stop()
 
         if command == CommandsRu.calculate_statistics.value or command == CommandsEng.calculate_statistics.value:
-            self._hospital_command.get_statistic()
+            self._hospital_commands.get_statistic()
 
         if command == CommandsRu.discharge.value or command == CommandsEng.discharge.value:
-            self._hospital_command.discharge()
+            self._hospital_commands.discharge()
 
         if command == CommandsRu.get_status.value or command == CommandsEng.get_status.value:
-            self._hospital_command.get_status()
+            self._hospital_commands.get_status()
 
         if command == CommandsRu.status_up.value or command == CommandsEng.status_up.value:
-            self._hospital_command.status_up()
+            self._hospital_commands.status_up()
 
         if command == CommandsRu.status_down.value or command == CommandsEng.status_down.value:
-            self._hospital_command.status_down()
+            self._hospital_commands.status_down()
 
     def _stop(self):
-        self._io_helper.response_stop_app()
+        self._io_helper.respond_stop_app()
         self._stop_process = True
 
     def run(self):

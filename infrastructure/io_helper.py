@@ -1,4 +1,4 @@
-from exceptions.hospital_exception import UserIdIsNotPositiveIntegerException
+from exceptions.hospital_exception import PatientIdIsNotPositiveIntegerError
 from hospital_data.app_commands import (
     CommandsRu,
     CommandsEng,
@@ -21,11 +21,11 @@ class IOHelper:
     def request_patient_id() -> int:
         patient_id = input(f"Введите ID пациента: ").strip()
         if not patient_id.isdigit() or int(patient_id) <= 0:
-            raise UserIdIsNotPositiveIntegerException
+            raise PatientIdIsNotPositiveIntegerError
         return int(patient_id)
 
     @staticmethod
-    def response_message(message: str) -> None:
+    def respond_message(message: str):
         print(message)
 
     @staticmethod
@@ -34,39 +34,39 @@ class IOHelper:
         return answer_text == "да"
 
     @staticmethod
-    def response_patient_not_exists() -> None:
+    def respond_patient_not_exists():
         print("Ошибка. В больнице нет пациента с таким ID")
 
     @staticmethod
-    def response_status(status: str) -> None:
+    def respond_status(status: str):
         print(f"Cтатус пациента: {status}")
 
     @staticmethod
-    def response_new_status(status: str) -> None:
+    def respond_new_status(status: str):
         print(f"Новый статус пациента: {status}")
 
     @staticmethod
-    def response_status_not_changed(status: str) -> None:
+    def respond_status_not_changed(status: str):
         print(f"Пациент остался в статусе '{status}'")
 
     @staticmethod
-    def response_status_too_low() -> None:
+    def respond_status_too_low():
         print("Ошибка. Нельзя понизить самый низкий статус (наши пациенты не умирают)")
 
     @staticmethod
-    def response_patient_discharged() -> None:
+    def respond_patient_discharged():
         print("Пациент выписан из больницы")
 
     @staticmethod
-    def response_unknown_command() -> None:
+    def respond_unknown_command():
         print("Неизвестная команда! Попробуйте ещё раз")
 
     @staticmethod
-    def response_stop_app() -> None:
+    def respond_stop_app():
         print("Сеанс завершён.")
 
     @staticmethod
-    def response_statistic(total: int, sorted_statistic: dict) -> None:
+    def respond_statistic(total: int, sorted_statistic: dict):
         print(f"В больнице на данный момент находится {total} чел., из них:")
         for status_id, count_patients in sorted_statistic.items():
             print(f"- в статусе '{patient_statuses[status_id]}': {count_patients} чел.")
