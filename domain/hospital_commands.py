@@ -10,8 +10,8 @@ class HospitalCommands:
         self._io_helper = io_helper
 
     def get_statistic(self):
-        total_count = self._hospital.get_count_current_patients()
-        statistics = self._hospital.get_statistic_by_patients()
+        total_count = self._hospital.count_current_patients()
+        statistics = self._hospital.count_statistic_by_patients()
         self._io_helper.report_statistic(total_count, statistics)
 
     def get_status(self):
