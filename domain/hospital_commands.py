@@ -1,5 +1,3 @@
-from controllers.io_helper import IOHelper
-from domain.hospital import Hospital
 from exceptions.hospital_exception import (
     PatientIsNotExistsError,
     PatientIdIsNotPositiveIntegerError,
@@ -7,7 +5,7 @@ from exceptions.hospital_exception import (
 
 
 class HospitalCommands:
-    def __init__(self, hospital: Hospital, io_helper: IOHelper):
+    def __init__(self, hospital, io_helper):
         self._hospital = hospital
         self._io_helper = io_helper
 

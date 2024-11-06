@@ -1,5 +1,4 @@
 from domain.hospital_commands import HospitalCommands
-from controllers.io_helper import IOHelper
 from app_commands import (
     UnknownCommand,
     CommandsEng,
@@ -8,7 +7,7 @@ from app_commands import (
 
 
 class Application:
-    def __init__(self, hospital_commands: HospitalCommands, io_helper: IOHelper):
+    def __init__(self, hospital_commands: HospitalCommands, io_helper):
         self._hospital_commands = hospital_commands
         self._io_helper = io_helper
         self._stop_process = False
