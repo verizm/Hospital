@@ -39,13 +39,13 @@ class TestHospital:
         hospital = Hospital([None, 1, 0, None])
         assert hospital.calculate_count_current_patients() == 2
 
-    def test_statistic_by_patients_sorted(self):
+    def test_calculate_statistic_by_patients_sorted(self):
         hospital = Hospital([3, 0, 2, 1])
         expected_statistic = {"Тяжело болен": 1, "Болен": 1, "Слегка болен": 1, "Готов к выписке": 1}
         assert hospital.calculate_statistic_by_patients() == expected_statistic
 
     def test_calculate_statistic_by_patients(self):
-        hospital = Hospital([None, 3, None, 3, 0])
+        hospital = Hospital([None, 3, 3, 0])
         assert hospital.calculate_statistic_by_patients() == {"Тяжело болен": 1, "Готов к выписке": 2}
 
     def test_calculate_statistic_exclude_discharged(self):
