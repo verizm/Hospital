@@ -12,10 +12,11 @@ class TestHospital:
 
     def test_get_status(self):
         patient_id = 1
+        patient_index = 0
         data_base = [1 for _ in range(200)]
         hospital = Hospital(data_base)
 
-        current_status = data_base[patient_id - 1]
+        current_status = data_base[patient_index]
         actual_status = hospital.get_status(patient_id)
         assert actual_status == patient_statuses[current_status]
 
@@ -32,10 +33,11 @@ class TestHospital:
 
     def test_validate_status_too_high(self):
         patient_id = 1
+        patient_index = 0
         data_base = [1 for _ in range(200)]
         hospital = Hospital(data_base)
 
-        data_base[patient_id - 1] = max(patient_statuses)
+        data_base[patient_index] = max(patient_statuses)
         with pytest.raises(PatientStatusTooHighError):
             hospital.status_up(patient_id)
 
@@ -44,8 +46,10 @@ class TestHospital:
         data_base = [1 for _ in range(200)]
         count_patients_before_discharge = len(data_base)
         hospital = Hospital(data_base)
+
         for patient_index in range(count_discharged_patients):
             data_base[patient_index] = None
+
         actual_count_patients = hospital.calculate_count_current_patients()
         expected_count_patients = count_patients_before_discharge - count_discharged_patients
         assert actual_count_patients == expected_count_patients
