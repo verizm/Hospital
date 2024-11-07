@@ -30,7 +30,7 @@ class TestHospital:
         with pytest.raises(PatientIsNotExistsError):
             hospital.get_status(patient_id=1)
 
-    def test_validate_patient_not_exists_when_get_status(self):
+    def test_validate_not_existent_patients_when_get_status(self):
         hospital = Hospital([])
         with pytest.raises(PatientIsNotExistsError):
             hospital.get_status(patient_id=1)
@@ -48,6 +48,6 @@ class TestHospital:
         expected_statistic = {"Тяжело болен": 1, "Болен": 1, "Слегка болен": 1, "Готов к выписке": 1}
         assert hospital.calculate_statistic_by_patients() == expected_statistic
 
-    def test_statistic_by_patients_exclude_discharged(self):
+    def test_statistic_not_include_discharged_patients(self):
         hospital = Hospital([None, None])
         assert hospital.calculate_statistic_by_patients() == {}
