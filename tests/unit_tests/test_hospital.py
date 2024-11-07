@@ -3,6 +3,7 @@ import pytest
 from domain.hospital import Hospital
 from exceptions.hospital_exception import (
     PatientStatusTooHighError,
+    PatientIsNotExistsError,
 )
 
 patient_statuses = {0: "Тяжело болен", 1: "Болен", 2: "Слегка болен", 3: "Готов к выписке"}
@@ -11,65 +12,42 @@ patient_statuses = {0: "Тяжело болен", 1: "Болен", 2: "Слег�
 class TestHospital:
 
     def test_get_status(self):
-        patient_id = 1
-        patient_index = 0
-        data_base = [1 for _ in range(200)]
-        hospital = Hospital(data_base)
-
-        current_status = data_base[patient_index]
-        actual_status = hospital.get_status(patient_id)
-        assert actual_status == patient_statuses[current_status]
+        hospital = Hospital([2, 0])
+        assert hospital.get_status(patient_id=1) == "Слегка болен"
 
     def test_status_up(self):
-        patient_id = 1
-        patient_index = 0
-        data_base = [1 for _ in range(200)]
-        hospital = Hospital(data_base)
-
-        expected_status = data_base[patient_index] + 1
-        hospital.status_up(patient_id)
-        actual_status = data_base[patient_index]
-        assert actual_status == expected_status
+        hospital = Hospital([2, 0])
+        hospital.status_up(patient_id=1)
+        assert hospital._hospital_db == [3, 0]
 
     def test_validate_status_too_high(self):
-        patient_id = 1
-        patient_index = 0
-        data_base = [1 for _ in range(200)]
-        hospital = Hospital(data_base)
-
-        data_base[patient_index] = max(patient_statuses)
+        hospital = Hospital([3])
         with pytest.raises(PatientStatusTooHighError):
-            hospital.status_up(patient_id)
+            hospital.status_up(patient_id=1)
 
-    @pytest.mark.parametrize("count_discharged_patients", [0, 1, 199, 200])
-    def test_calculate_count_current_patients(self, count_discharged_patients):
-        data_base = [1 for _ in range(200)]
-        count_patients_before_discharge = len(data_base)
-        hospital = Hospital(data_base)
+    def test_validate_discharged_patients_when_get_status(self):
+        hospital = Hospital([None])
+        with pytest.raises(PatientIsNotExistsError):
+            hospital.get_status(patient_id=1)
 
-        for patient_index in range(count_discharged_patients):
-            data_base[patient_index] = None
+    def test_validate_patient_not_exists_when_get_status(self):
+        hospital = Hospital([])
+        with pytest.raises(PatientIsNotExistsError):
+            hospital.get_status(patient_id=1)
 
-        actual_count_patients = hospital.calculate_count_current_patients()
-        expected_count_patients = count_patients_before_discharge - count_discharged_patients
-        assert actual_count_patients == expected_count_patients
+    def test_calculate_count_current_patients(self):
+        hospital = Hospital([None, 1, 0, None])
+        assert hospital.calculate_count_current_patients() == 2
 
-    @pytest.mark.parametrize(
-        "status_indexes, expected_statistic",
-        [
-            ([2], {'Болен': 199, 'Слегка болен': 1}),
-            ([3], {'Болен': 199, 'Готов к выписке': 1}),
-            ([0], {'Болен': 199, 'Тяжело болен': 1}),
-            ([1], {'Болен': 200}),
-            ([0, 2, 3], {'Болен': 197, 'Готов к выписке': 1, 'Слегка болен': 1, 'Тяжело болен': 1})
+    def test_statistic_by_patients_sorted(self):
+        hospital = Hospital([3, 0, 2, 1])
+        expected_statistic = {"Тяжело болен": 1, "Болен": 1, "Слегка болен": 1, "Готов к выписке": 1}
+        assert hospital.calculate_statistic_by_patients() == expected_statistic
 
-        ]
-    )
-    def test_calculate_statistic_by_patients(self, status_indexes, expected_statistic):
-        data_base = [1 for _ in range(200)]
-        hospital = Hospital(data_base)
-        for patient_index, status in enumerate(status_indexes):
-            data_base[patient_index] = status
+    def test_calculate_statistic_by_patients(self):
+        hospital = Hospital([None, 3, None, 3, 0])
+        assert hospital.calculate_statistic_by_patients() == {"Тяжело болен": 1, "Готов к выписке": 2}
 
-        statistics = hospital.calculate_statistic_by_patients()
-        assert statistics == expected_statistic
+    def test_calculate_statistic_exclude_discharged(self):
+        hospital = Hospital([None, None])
+        assert hospital.calculate_statistic_by_patients() == {}
