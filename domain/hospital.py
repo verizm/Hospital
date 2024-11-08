@@ -7,11 +7,9 @@ from exceptions.hospital_exception import (
 
 
 class Hospital:
-    def __init__(self, hospital_db: list):
+    def __init__(self, hospital_db: list, patient_statuses: dict):
         self._hospital_db = hospital_db
-        self._patient_statuses = {0: "Тяжело болен", 1: "Болен", 2: "Слегка болен", 3: "Готов к выписке"}
-        self._max_status = max(self._patient_statuses)
-        self._min_status = min(self._patient_statuses)
+        self._patient_statuses = patient_statuses
 
     @staticmethod
     def _convert_patient_id_to_patient_index(patient_id: int) -> int:
@@ -30,17 +28,17 @@ class Hospital:
     def can_status_down(self, patient_id: int) -> bool:
         patient_index = self._convert_patient_id_to_patient_index(patient_id)
         self._check_patient_is_exists(patient_index)
-        return self._hospital_db[patient_index] > self._min_status
+        return self._hospital_db[patient_index] > min(self._patient_statuses)
 
     def can_status_up(self, patient_id: int) -> bool:
         patient_index = self._convert_patient_id_to_patient_index(patient_id)
         self._check_patient_is_exists(patient_index)
-        return self._hospital_db[patient_index] < self._max_status
+        return self._hospital_db[patient_index] < max(self._patient_statuses)
 
     def status_up(self, patient_id: int):
         patient_index = self._convert_patient_id_to_patient_index(patient_id)
         self._check_patient_is_exists(patient_index)
-        if self._hospital_db[patient_index] == self._max_status:
+        if not self.can_status_up(patient_id):
             raise PatientStatusTooHighError
         self._hospital_db[patient_index] += 1
 
@@ -48,7 +46,7 @@ class Hospital:
         patient_index = self._convert_patient_id_to_patient_index(patient_id)
         self._check_patient_is_exists(patient_index)
 
-        if self._hospital_db[patient_index] == self._min_status:
+        if not self.can_status_down(patient_id):
             raise PatientStatusTooLowError
         self._hospital_db[patient_index] -= 1
 
