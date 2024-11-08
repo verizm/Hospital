@@ -84,7 +84,7 @@ class TestHospitalCommands:
 
         io_mock.report_message.assert_called_with("Ошибка. В больнице нет пациента с таким ID")
 
-    def test_status_up_when_patient_id_is_not_valid(self):
+    def test_status_up_when_patient_id_is_not_positive_integer(self):
         io_mock = MagicMock()
         hospital_commands = HospitalCommands(make_hospital([1, 2]), io_mock)
         io_mock.request_patient_id = MagicMock(side_effect=PatientIdIsNotPositiveIntegerError)
