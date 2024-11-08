@@ -23,12 +23,12 @@ class TestHospital:
 
     def test_status_up_when_status_too_high(self):
         hospital = make_hospital([3, 2])
-        expected_db = get_actual_hospital_db_as_statuses_list(hospital)
+        expected_statuses = get_actual_hospital_db_as_statuses_list(hospital)
 
         with pytest.raises(PatientStatusTooHighError):
             hospital.status_up(patient_id=1)
 
-        assert get_actual_hospital_db_as_statuses_list(hospital) == expected_db
+        assert get_actual_hospital_db_as_statuses_list(hospital) == expected_statuses
 
     def test_get_status_when_patient_discharged(self):
         hospital = make_hospital([None, 0])
