@@ -32,7 +32,7 @@ class TestHospitalCommands:
 
         io_mock.report_message.assert_called_with(PatientIsNotExistsError().message)
 
-    def test_get_status_when_patient_id_not_valid(self):
+    def test_get_status_when_patient_id_positive_integer(self):
         io_mock = MagicMock()
         hospital_commands = HospitalCommands(make_hospital([1, 2]), io_mock)
         io_mock.request_patient_id = MagicMock(side_effect=PatientIdIsNotPositiveIntegerError)
@@ -96,6 +96,19 @@ class TestHospitalCommands:
         hospital_commands.status_up()
 
         io_mock.report_message.assert_called_with(PatientIdIsNotPositiveIntegerError().message)
+
+    def test_get_statistic(self):
+        expected_statistics = {"Болен": 3, "Слегка болен": 2, "Готов к выписке": 1}
+
+        io_mock = MagicMock()
+        hospital_commands = HospitalCommands(make_hospital([1, 2, 3, 1, None, 1, 2]), io_mock)
+        io_mock.request_patient_id = MagicMock(return_value=1)
+
+        hospital_commands.get_statistic()
+
+        io_mock.report_statistic.assert_called_with(6, expected_statistics)
+
+
 
     def test_status_up_unit(self):
         io_mock = MagicMock()
@@ -173,14 +186,3 @@ class TestHospitalCommands:
 
         io_mock.request_patient_id.assert_called()
         io_mock.report_message.assert_called_with(PatientIdIsNotPositiveIntegerError().message)
-
-    def test_get_statistic(self):
-        expected_statistics = {"Болен": 3, "Слегка болен": 2, "Готов к выписке": 1}
-
-        io_mock = MagicMock()
-        hospital_commands = HospitalCommands(make_hospital([1, 2, 3, 1, None, 1, 2]), io_mock)
-        io_mock.request_patient_id = MagicMock(return_value=1)
-
-        hospital_commands.get_statistic()
-
-        io_mock.report_statistic.assert_called_with(6, expected_statistics)

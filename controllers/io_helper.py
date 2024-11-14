@@ -7,65 +7,55 @@ from app_commands import (
 
 
 class IOHelper:
-    COMMANDS = [*CommandsEng.values(), *CommandsRu.values()]
+    _COMMANDS = [*CommandsEng.values(), *CommandsRu.values()]
 
-    @staticmethod
-    def request_command():
-        command = input(f"Введите команду: ").strip()
-        if command not in IOHelper.COMMANDS:
+    def __init__(self, console):
+        self._console = console
+
+    def request_command(self) -> str:
+        command = self._console.input(f"Введите команду: ").strip()
+        if command not in IOHelper._COMMANDS:
             command = UnknownCommand
         return command
 
-    @staticmethod
-    def request_patient_id() -> int:
-        patient_id = input(f"Введите ID пациента: ").strip()
+    def request_patient_id(self) -> int:
+        patient_id = self._console.input(f"Введите ID пациента: ").strip()
         if not patient_id.isdigit() or int(patient_id) <= 0:
             raise PatientIdIsNotPositiveIntegerError
         return int(patient_id)
 
-    @staticmethod
-    def report_message(message: str):
-        print(message)
+    def report_message(self, message: str):
+        self._console.print(message)
 
-    @staticmethod
-    def request_need_to_discharge() -> bool:
-        answer_text = input("Желаете этого клиента выписать? (да/нет) ").lower()
+    def request_need_to_discharge(self) -> bool:
+        answer_text = self._console.input("Желаете этого клиента выписать? (да/нет) ").lower()
         return answer_text == "да"
 
-    @staticmethod
-    def report_patient_not_exists():
-        print("Ошибка. В больнице нет пациента с таким ID")
+    def report_patient_not_exists(self):
+        self._console.print("Ошибка. В больнице нет пациента с таким ID")
 
-    @staticmethod
-    def report_status(status: str):
-        print(f"Cтатус пациента: {status}")
+    def report_status(self, status: str):
+        self._console.print(f"Cтатус пациента: {status}")
 
-    @staticmethod
-    def report_new_status(status: str):
-        print(f"Новый статус пациента: {status}")
+    def report_new_status(self, status: str):
+        self._console.print(f"Новый статус пациента: {status}")
 
-    @staticmethod
-    def report_status_not_changed(status: str):
-        print(f"Пациент остался в статусе '{status}'")
+    def report_status_not_changed(self, status: str):
+        self._console.print(f"Пациент остался в статусе '{status}'")
 
-    @staticmethod
-    def report_status_too_low():
-        print("Ошибка. Нельзя понизить самый низкий статус (наши пациенты не умирают)")
+    def report_status_too_low(self):
+        self._console.print("Ошибка. Нельзя понизить самый низкий статус (наши пациенты не умирают)")
 
-    @staticmethod
-    def report_patient_discharged():
-        print("Пациент выписан из больницы")
+    def report_patient_discharged(self):
+        self._console.print("Пациент выписан из больницы")
 
-    @staticmethod
-    def report_unknown_command():
-        print("Неизвестная команда! Попробуйте ещё раз")
+    def report_unknown_command(self):
+        self._console.print("Неизвестная команда! Попробуйте ещё раз")
 
-    @staticmethod
-    def report_stop_app():
-        print("Сеанс завершён.")
+    def report_stop_app(self):
+        self._console.print("Сеанс завершён.")
 
-    @staticmethod
-    def report_statistic(total: int, statistic: dict):
-        print(f"В больнице на данный момент находится {total} чел., из них:")
+    def report_statistic(self, total: int, statistic: dict):
+        self._console.print(f"В больнице на данный момент находится {total} чел., из них:")
         for status, count_patients in statistic.items():
-            print(f"- в статусе '{status}': {count_patients} чел.")
+            self._console.print(f"- в статусе '{status}': {count_patients} чел.")
