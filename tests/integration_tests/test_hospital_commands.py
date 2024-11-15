@@ -108,8 +108,6 @@ class TestHospitalCommands:
 
         io_mock.report_statistic.assert_called_with(6, expected_statistics)
 
-
-
     def test_status_up_unit(self):
         io_mock = MagicMock()
         hospital_mock = MagicMock()
