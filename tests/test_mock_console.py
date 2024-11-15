@@ -1,5 +1,5 @@
 import pytest
-from controllers.mock_console import MockConsole
+from tests.mock_console import MockConsole
 
 
 class TestMockConsole:

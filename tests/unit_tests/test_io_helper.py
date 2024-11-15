@@ -20,15 +20,15 @@ class TestIoHelper:
         io_helper.report_unknown_command()
         console_mock.print.assert_called_with("Неизвестная команда! Попробуйте ещё раз")
 
-    def test_request_command(self):
+    def test_request_command(self, expected_command):
         console_mock = MagicMock()
         io_helper = IOHelper(console_mock)
-        console_mock.input.return_value = " get status "
+        console_mock.input.return_value = expected_command
 
-        command = io_helper.request_command()
+        actual_command = io_helper.request_command()
 
         console_mock.input.assert_called_with("Введите команду: ")
-        assert command == "get status"
+        assert actual_command == expected_command
 
     def test_request_command_when_command_is_unknown(self):
         console_mock = MagicMock()
