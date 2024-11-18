@@ -77,34 +77,23 @@ class TestIoHelper:
             io_helper.request_patient_id()
 
     @pytest.mark.parametrize(
-        "actual_status, expected_status",
+        "input_value, expected_status",
         [
-            ("Болен", "болен"),
-            ("тяжело Болен", "тяжело болен"),
-            ("СЛЕГКА БОЛЕН", "слегка болен"),
-
+            ("болен", "Болен"),
+            ("Тяжело болен", "Тяжело болен"),
         ]
     )
-    def test_request_patient_status(self, actual_status, expected_status):
+    def test_request_patient_status(self, input_value, expected_status):
         console_mock = MagicMock()
         io_helper = IOHelper(console_mock)
-        console_mock.input.return_value = actual_status
+        console_mock.input.return_value = input_value
 
-        actual_status = io_helper.request_patient_status()
+        assert io_helper.request_patient_status() == expected_status
 
-        assert actual_status == expected_status
-
-    @pytest.mark.parametrize(
-        "status",
-        [
-            "not allowed",
-            "Готов к выписке"
-        ]
-    )
-    def test_request_patient_status_when_status_not_allowed(self, status):
+    def test_request_patient_status_when_status_not_allowed(self):
         console_mock = MagicMock()
         io_helper = IOHelper(console_mock)
-        console_mock.input.return_value = status
+        console_mock.input.return_value = "Готов к выписке"
 
         with pytest.raises(PatientStatusNotAllowedForHospitalizationError):
             io_helper.request_patient_status()

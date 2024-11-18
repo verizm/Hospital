@@ -9,6 +9,7 @@ from tests.hospital_helper import (
 from exceptions.hospital_exception import (
     PatientIdIsNotPositiveIntegerError,
     PatientIsNotExistsError,
+    PatientStatusNotAllowedForHospitalizationError,
 )
 
 
@@ -118,6 +119,17 @@ class TestHospitalCommands:
 
         io_mock.report_patient_id.assert_called_with(3)
         assert get_actual_hospital_db_as_statuses_list(hospital) == [3, 2, 1]
+
+    def test_add_patient_when_status_not_allowed(self):
+        io_mock = MagicMock()
+
+        hospital = make_hospital([3, 2])
+        hospital_commands = HospitalCommands(hospital, io_mock)
+        io_mock.request_patient_status = MagicMock(side_effect=PatientStatusNotAllowedForHospitalizationError)
+        hospital_commands.add_patient()
+
+        io_mock.report_message.assert_called_with(PatientStatusNotAllowedForHospitalizationError().message)
+        assert get_actual_hospital_db_as_statuses_list(hospital) == [3, 2]
 
     def test_status_up_unit(self):
         io_mock = MagicMock()

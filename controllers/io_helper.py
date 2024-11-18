@@ -11,7 +11,7 @@ from app_commands import (
 
 class IOHelper:
     _commands = [*CommandsEng.values(), *CommandsRu.values()]
-    _allowed_for_hospitalization_statuses = ["тяжело болен", "болен", "слегка болен"]
+    _allowed_for_hospitalization_statuses = ["Тяжело болен", "Болен"]
 
     def __init__(self, console):
         self._console = console
@@ -65,10 +65,11 @@ class IOHelper:
             self._console.print(f"- в статусе '{status}': {count_patients} чел.")
 
     def request_patient_status(self) -> str:
-        status = self._console.input("Введите статус пациента: ").strip().lower()
-        if status not in IOHelper._allowed_for_hospitalization_statuses:
+        status = self._console.input("Введите статус пациента: ").strip()
+        formatted_status = status.lower().capitalize()
+        if formatted_status not in IOHelper._allowed_for_hospitalization_statuses:
             raise PatientStatusNotAllowedForHospitalizationError
-        return status
+        return formatted_status
 
     def report_patient_id(self, patient_id: int):
         self._console.print(f"Пациент принят в больницу. Присвоен ID {patient_id}")
