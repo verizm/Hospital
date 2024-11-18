@@ -1,4 +1,7 @@
-from exceptions.hospital_exception import PatientIdIsNotPositiveIntegerError
+from exceptions.hospital_exception import (
+    PatientIdIsNotPositiveIntegerError,
+    PatientStatusNotAllowedForHospitalizationError,
+)
 from app_commands import (
     CommandsRu,
     CommandsEng,
@@ -7,14 +10,15 @@ from app_commands import (
 
 
 class IOHelper:
-    _COMMANDS = [*CommandsEng.values(), *CommandsRu.values()]
+    _commands = [*CommandsEng.values(), *CommandsRu.values()]
+    _allowed_for_hospitalization_statuses = ["тяжело болен", "болен", "слегка болен"]
 
     def __init__(self, console):
         self._console = console
 
     def request_command(self) -> str:
         command = self._console.input(f"Введите команду: ").strip()
-        if command not in IOHelper._COMMANDS:
+        if command not in IOHelper._commands:
             command = UnknownCommand
         return command
 
@@ -61,7 +65,9 @@ class IOHelper:
             self._console.print(f"- в статусе '{status}': {count_patients} чел.")
 
     def request_patient_status(self) -> str:
-        status = self._console.input("Введите статус пациента: ").strip()
+        status = self._console.input("Введите статус пациента: ").strip().lower()
+        if status not in IOHelper._allowed_for_hospitalization_statuses:
+            raise PatientStatusNotAllowedForHospitalizationError
         return status
 
     def report_patient_id(self, patient_id: int):
