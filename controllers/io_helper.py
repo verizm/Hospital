@@ -59,3 +59,9 @@ class IOHelper:
         self._console.print(f"В больнице на данный момент находится {total} чел., из них:")
         for status, count_patients in statistic.items():
             self._console.print(f"- в статусе '{status}': {count_patients} чел.")
+
+    def request_patient_status(self) -> str:
+        pass
+
+    def report_patient_id(self):
+        pass

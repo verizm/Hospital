@@ -51,3 +51,9 @@ class TestHospital:
     def test_calculate_statistic_by_patients_when_db_is_empty(self):
         hospital = make_hospital([])
         assert hospital.calculate_statistic_by_patients() == {}
+
+    def test_add_patient(self):
+        hospital = make_hospital([3, 2])
+        hospital.add_patient("Тяжело болен")
+
+        assert get_actual_hospital_db_as_statuses_list(hospital) == [3, 2, 0]
