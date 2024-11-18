@@ -63,3 +63,8 @@ class HospitalCommands:
 
         except (PatientIdIsNotPositiveIntegerError, PatientIsNotExistsError) as error:
             self._io_helper.report_message(error.message)
+
+    def add_patient(self):
+        status = self._io_helper.request_patient_status()
+        patient_id = self._hospital.add_patient(status)
+        self._io_helper.report_patient_id(patient_id)
