@@ -136,3 +136,4 @@ class TestApplication:
                 call.print("Сеанс завершён."),
             ]
         )
+

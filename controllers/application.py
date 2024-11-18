@@ -36,6 +36,9 @@ class Application:
         if command == CommandsRu.status_down.value or command == CommandsEng.status_down.value:
             self._hospital_commands.status_down()
 
+        if command == CommandsRu.add_patient.value or command == CommandsEng.add_patient.value:
+            self._hospital_commands.add_patient()
+
     def _stop(self):
         self._io_helper.report_stop_app()
         self._stop_process = True

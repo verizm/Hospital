@@ -115,3 +115,17 @@ class TestHospitalScenario:
 
         console.verify_all_calls_have_been_made()
         assert get_actual_hospital_db_as_statuses_list(hospital) == [1, None, 1]
+
+    def test_add_patient(self):
+        hospital = make_hospital([1, 3, 1])
+        console = MockConsole()
+        console.add_expected_request_and_response('Введите команду: ', 'add patient')
+        console.add_expected_request_and_response('Введите статус пациента: ', 'Тяжело болен')
+        console.add_expected_output_message('Пациент принят в больницу. Присвоен ID 4')
+        console.add_expected_request_and_response('Введите команду: ', 'стоп')
+        console.add_expected_output_message('Сеанс завершён.')
+
+        make_application(hospital, console).run()
+
+        console.verify_all_calls_have_been_made()
+        assert get_actual_hospital_db_as_statuses_list(hospital) == [1, 3, 1, 0]
