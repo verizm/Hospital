@@ -24,5 +24,5 @@ class PatientStatusTooHighError(Exception):
 
 class PatientStatusNotAllowedForHospitalizationError(Exception):
     def __init__(self):
-        self.message = "Ошибка. Нельзя госпитализировать пациента с таким статусом."
+        self.message = "Ошибка. Статус для госпитализации должен быть 'Болен' или 'Тяжело болен'"
         super().__init__(self.message)

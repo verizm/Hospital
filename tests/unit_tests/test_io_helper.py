@@ -80,7 +80,7 @@ class TestIoHelper:
         "input_value, expected_status",
         [
             ("болен", "Болен"),
-            ("Тяжело болен", "Тяжело болен"),
+            ("Тяжело БОЛЕН", "Тяжело болен"),
         ]
     )
     def test_request_patient_status(self, input_value, expected_status):

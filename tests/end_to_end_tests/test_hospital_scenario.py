@@ -135,7 +135,7 @@ class TestHospitalScenario:
         console = MockConsole()
         console.add_expected_request_and_response('Введите команду: ', 'add patient')
         console.add_expected_request_and_response('Введите статус пациента: ', 'Здоров')
-        console.add_expected_output_message('Ошибка. Нельзя госпитализировать пациента с таким статусом.')
+        console.add_expected_output_message("Ошибка. Статус для госпитализации должен быть 'Болен' или 'Тяжело болен'")
         console.add_expected_request_and_response('Введите команду: ', 'стоп')
         console.add_expected_output_message('Сеанс завершён.')
 
