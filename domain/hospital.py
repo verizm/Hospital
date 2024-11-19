@@ -20,6 +20,16 @@ class Hospital:
         if len(self._hospital_db) <= int(patient_index) or self._hospital_db[patient_index] is None:
             raise PatientIsNotExistsError
 
+    def _convert_status_value_to_status_id(self, status: str) -> int:
+        formatted_status = status.lower().capitalize()
+        actual_statuses = self._patient_statuses.values()
+
+        if formatted_status not in actual_statuses:
+            raise PatientStatusIsNotExistsError(list(actual_statuses))
+
+        status_id = list(filter(lambda item: self._patient_statuses[item] == formatted_status, self._patient_statuses))[0]
+        return status_id
+
     def get_status(self, patient_id: int) -> str:
         patient_index = self._convert_patient_id_to_patient_index(patient_id)
         self._check_patient_is_exists(patient_index)
@@ -74,12 +84,7 @@ class Hospital:
         return total_count
 
     def add_patient(self, status: str) -> int:
-        formatted_status = status.lower().capitalize()
-        actual_statuses = self._patient_statuses.values()
-
-        if formatted_status not in self._patient_statuses:
-            raise PatientStatusIsNotExistsError(actual_statuses)
-        status_id = list(filter(lambda item: self._patient_statuses[item] == formatted_status, self._patient_statuses))[0]
+        status_id = self._convert_status_value_to_status_id(status)
         patient_id = len(self._hospital_db) + 1
         self._hospital_db.append(status_id)
         return patient_id

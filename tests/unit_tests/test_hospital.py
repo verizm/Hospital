@@ -63,5 +63,19 @@ class TestHospital:
 
     def test_add_patient_when_status_not_exists(self):
         hospital = make_hospital([2, 2, 1])
+
         with pytest.raises(PatientStatusIsNotExistsError):
             hospital.add_patient(status="Здоров")
+
+    def test_convert_status_value_to_status_id(self):
+        hospital = make_hospital([2, 2, 1])
+
+        status_id = hospital._convert_status_value_to_status_id("Болен")
+
+        assert status_id == 1
+
+    def test_convert_status_value_to_status_id_when_status_is_not_exists(self):
+        hospital = make_hospital([2, 2, 1])
+
+        with pytest.raises(PatientStatusIsNotExistsError):
+            hospital._convert_status_value_to_status_id(status="Sick")
