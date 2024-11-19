@@ -81,3 +81,11 @@ class TestIoHelper:
         status = io_helper.request_patient_status()
         console_mock.input.assert_called_with("Введите статус пациента: ")
         assert status == "Cлегка болен"
+
+    def test_report_patient_id(self):
+        console_mock = MagicMock()
+        io_helper = IOHelper(console_mock)
+
+        io_helper.report_patient_id(6)
+
+        console_mock.print.assert_called_with("Пациент госпитализирован. Присвоен ID 6")

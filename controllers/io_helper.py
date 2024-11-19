@@ -63,3 +63,6 @@ class IOHelper:
     def request_patient_status(self) -> str:
         status = self._console.input("Введите статус пациента: ").strip()
         return status
+
+    def report_patient_id(self, patient_id: int):
+        self._console.print(f"Пациент госпитализирован. Присвоен ID {patient_id}")
