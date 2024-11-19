@@ -54,7 +54,7 @@ class Hospital:
         self._check_patient_is_exists(patient_index)
         if not self.can_status_up(patient_id):
             raise PatientStatusTooHighError
-        self._hospital_db[patient_index] += 1
+        self._hospital_db[patient_index] = list(self._patient_statuses)[patient_index + 1]
 
     def status_down(self, patient_id: int):
         patient_index = self._convert_patient_id_to_patient_index(patient_id)

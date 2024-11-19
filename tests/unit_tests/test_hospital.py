@@ -1,5 +1,6 @@
 import pytest
 
+from domain.hospital import Hospital
 from tests.hospital_helper import (
     make_hospital,
     get_actual_hospital_db_as_statuses_list,
@@ -28,9 +29,10 @@ class TestHospital:
             hospital.get_status(patient_id=4)
 
     def test_status_up(self):
-        hospital = make_hospital([2, 0])
+        hospital = Hospital([10, 30], {10: "Тяжело болен", 20: "Болен", 30: "Слегка болен"})
+
         hospital.status_up(patient_id=1)
-        assert get_actual_hospital_db_as_statuses_list(hospital) == [3, 0]
+        assert hospital._hospital_db == [20, 30]
 
     def test_status_up_when_status_too_high(self):
         hospital = make_hospital([3, 2])
