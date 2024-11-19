@@ -9,6 +9,7 @@ from exceptions.hospital_exception import (
     PatientStatusTooHighError,
     PatientIsNotExistsError,
     PatientStatusIsNotExistsError,
+    PatientStatusTooLowError,
 )
 
 
@@ -41,6 +42,20 @@ class TestHospital:
             hospital.status_up(patient_id=1)
 
         assert get_actual_hospital_db_as_statuses_list(hospital) == [6, 3]
+
+    def test_status_down(self):
+        hospital = Hospital([100, None, 200], {100: "Тяжело болен", 200: "Болен", 300: "Здоров"})
+
+        hospital.status_down(patient_id=3)
+        assert hospital._hospital_db == [100, None, 100]
+
+    def test_status_down_when_status_too_low(self):
+        hospital = Hospital([10, 20], {10: "Тяжело болен", 20: "Болен", 30: "Здоров"})
+
+        with pytest.raises(PatientStatusTooLowError):
+            hospital.status_down(patient_id=1)
+
+        assert hospital._hospital_db == [10, 20]
 
     def test_calculate_count_current_patients(self):
         hospital = make_hospital([None, 1, None, 0, 1, None])

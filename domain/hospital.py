@@ -62,7 +62,10 @@ class Hospital:
 
         if not self.can_status_down(patient_id):
             raise PatientStatusTooLowError
-        self._hospital_db[patient_index] -= 1
+
+        current_status_index = list(self._patient_statuses).index(self._hospital_db[patient_index])
+        new_status_id = list(self._patient_statuses)[current_status_index -1]
+        self._hospital_db[patient_index] = new_status_id
 
     def discharge(self, patient_id: int):
         patient_index = self._convert_patient_id_to_patient_index(patient_id)
