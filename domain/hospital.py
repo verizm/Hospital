@@ -20,6 +20,9 @@ class Hospital:
         if len(self._hospital_db) <= int(patient_index) or self._hospital_db[patient_index] is None:
             raise PatientIsNotExistsError
 
+    def _calculate_new_patient_id(self) -> int:
+        return len(self._hospital_db) + 1
+
     def _convert_status_value_to_status_id(self, status: str) -> int:
         formatted_status = status.lower().capitalize()
         actual_statuses = self._patient_statuses.values()
@@ -85,6 +88,6 @@ class Hospital:
 
     def add_patient(self, status: str) -> int:
         status_id = self._convert_status_value_to_status_id(status)
-        patient_id = len(self._hospital_db) + 1
+        patient_id = self._calculate_new_patient_id()
         self._hospital_db.append(status_id)
         return patient_id

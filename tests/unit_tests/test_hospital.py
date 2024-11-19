@@ -79,3 +79,8 @@ class TestHospital:
 
         with pytest.raises(PatientStatusIsNotExistsError):
             hospital._convert_status_value_to_status_id(status="Sick")
+
+    def test_calculate_new_patient_id(self):
+        hospital = make_hospital([2, 2, 1])
+
+        assert hospital._calculate_new_patient_id() == 4
