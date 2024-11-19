@@ -61,7 +61,7 @@ class TestHospital:
         assert patient_id == 4
         assert get_actual_hospital_db_as_statuses_list(hospital) == [3, 2, None, 0]
 
-    def test_add_patient_when_status_not_exists(self):
+    def test_add_patient_when_status_is_not_exists(self):
         hospital = make_hospital([2, 2, 1])
 
         with pytest.raises(PatientStatusIsNotExistsError):
