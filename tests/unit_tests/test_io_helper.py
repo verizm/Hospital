@@ -72,3 +72,12 @@ class TestIoHelper:
 
         with pytest.raises(PatientIdIsNotPositiveIntegerError):
             io_helper.request_patient_id()
+
+    def test_request_patient_status(self):
+        console_mock = MagicMock()
+        io_helper = IOHelper(console_mock)
+        console_mock.input.return_value = " Cлегка болен "
+
+        status = io_helper.request_patient_status()
+        console_mock.input.assert_called_with("Введите статус пациента: ")
+        assert status == "Cлегка болен"
