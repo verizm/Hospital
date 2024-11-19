@@ -71,3 +71,9 @@ class Hospital:
     def calculate_count_current_patients(self) -> int:
         total_count = len(self._exclude_discharged_statuses())
         return total_count
+
+    def add_patient(self, status: str) -> int:
+        status_id = list(filter(lambda item: self._patient_statuses[item] == status, self._patient_statuses))[0]
+        patient_id = len(self._hospital_db) + 1
+        self._hospital_db.append(status_id)
+        return patient_id
