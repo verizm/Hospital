@@ -17,6 +17,7 @@ class CommandsRu(ExtendedEnum):
     status_down = "понизить статус пациента"
     discharge = "выписать пациента"
     calculate_statistics = "рассчитать статистику"
+    add_patient = "add patient"
     stop = "стоп"
 
 
@@ -26,4 +27,5 @@ class CommandsEng(ExtendedEnum):
     status_down = "status down"
     discharge = "discharge"
     calculate_statistics = "calculate statistics"
+    add_patient = "добавить пациента"
     stop = "stop"
