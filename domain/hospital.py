@@ -3,6 +3,7 @@ from exceptions.hospital_exception import (
     PatientIsNotExistsError,
     PatientStatusTooHighError,
     PatientStatusTooLowError,
+    PatientStatusIsNotExistsError,
 )
 
 
@@ -73,7 +74,12 @@ class Hospital:
         return total_count
 
     def add_patient(self, status: str) -> int:
-        status_id = list(filter(lambda item: self._patient_statuses[item] == status, self._patient_statuses))[0]
+        formatted_status = status.lower().capitalize()
+        actual_statuses = self._patient_statuses.values()
+
+        if formatted_status not in self._patient_statuses:
+            raise PatientStatusIsNotExistsError(actual_statuses)
+        status_id = list(filter(lambda item: self._patient_statuses[item] == formatted_status, self._patient_statuses))[0]
         patient_id = len(self._hospital_db) + 1
         self._hospital_db.append(status_id)
         return patient_id

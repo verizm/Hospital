@@ -20,3 +20,9 @@ class PatientStatusTooHighError(Exception):
     def __init__(self):
         self.message = "Ошибка. Нельзя понизить самый высокий статус"
         super().__init__(self.message)
+
+
+class PatientStatusIsNotExistsError(Exception):
+    def __init__(self, statuses: list):
+        self.message = f"Ошибка. Статус пациента должен быть один из {statuses}"
+        super().__init__(self.message)
