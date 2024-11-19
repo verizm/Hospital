@@ -35,12 +35,12 @@ class TestHospital:
         assert hospital._hospital_db == [20, 30]
 
     def test_status_up_when_status_too_high(self):
-        hospital = make_hospital([3, 2])
+        hospital = Hospital([6, 3], {3: "Тяжело болен", 6: "Болен"})
 
         with pytest.raises(PatientStatusTooHighError):
             hospital.status_up(patient_id=1)
 
-        assert get_actual_hospital_db_as_statuses_list(hospital) == [3, 2]
+        assert get_actual_hospital_db_as_statuses_list(hospital) == [6, 3]
 
     def test_calculate_count_current_patients(self):
         hospital = make_hospital([None, 1, None, 0, 1, None])
@@ -49,6 +49,7 @@ class TestHospital:
     def test_calculate_statistic_by_patients(self):
         hospital = make_hospital([None, 3, 0, 3, 2, 0])
         expected_statistic = {"Тяжело болен": 2, "Слегка болен": 1, "Готов к выписке": 2}
+
         assert hospital.calculate_statistic_by_patients() == expected_statistic
 
     def test_calculate_statistic_by_patients_when_db_is_empty(self):
