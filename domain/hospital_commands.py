@@ -1,6 +1,7 @@
 from exceptions.hospital_exception import (
     PatientIsNotExistsError,
     PatientIdIsNotPositiveIntegerError,
+    PatientStatusIsNotExistsError,
 )
 
 
@@ -65,6 +66,9 @@ class HospitalCommands:
             self._io_helper.report_message(error.message)
 
     def add_patient(self):
-        status = self._io_helper.request_patient_status()
-        patient_id = self._hospital.add_patient(status)
-        self._io_helper.report_patient_id(patient_id)
+        try:
+            status = self._io_helper.request_patient_status()
+            patient_id = self._hospital.add_patient(status)
+            self._io_helper.report_patient_id(patient_id)
+        except PatientStatusIsNotExistsError as error:
+            self._io_helper.report_message(error.message)
