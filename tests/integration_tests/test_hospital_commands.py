@@ -108,6 +108,18 @@ class TestHospitalCommands:
 
         io_mock.report_statistic.assert_called_with(6, expected_statistics)
 
+    def test_add_patient(self):
+        io_mock = MagicMock()
+        hospital = make_hospital([3, 0])
+        hospital_commands = HospitalCommands(hospital, io_mock)
+        io_mock.request_patient_status = MagicMock(return_value="Болен")
+
+        hospital_commands.add_patient()
+
+        io_mock.report_patient_id.assert_called_with(3)
+
+        assert get_actual_hospital_db_as_statuses_list(hospital) == [3, 0, 1]
+
     def test_status_up_unit(self):
         io_mock = MagicMock()
         hospital_mock = MagicMock()
