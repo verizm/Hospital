@@ -23,6 +23,16 @@ class Hospital:
     def _calculate_new_patient_id(self) -> int:
         return len(self._hospital_db) + 1
 
+    def _calculate_next_status(self, patient_index: int) -> int:
+        statuses_ids = list(self._patient_statuses)
+        current_status_id = self._hospital_db[patient_index]
+        return statuses_ids[statuses_ids.index(current_status_id) + 1]
+
+    def _calculate_previous_status(self, patient_index: int) -> int:
+        statuses_ids = list(self._patient_statuses)
+        current_status_id = self._hospital_db[patient_index]
+        return statuses_ids[statuses_ids.index(current_status_id) - 1]
+
     def _convert_status_value_to_status_id(self, status: str) -> int:
         formatted_status = status.lower().capitalize()
         actual_statuses = self._patient_statuses.values()
@@ -54,7 +64,7 @@ class Hospital:
         self._check_patient_is_exists(patient_index)
         if not self.can_status_up(patient_id):
             raise PatientStatusTooHighError
-        self._hospital_db[patient_index] = list(self._patient_statuses)[patient_index + 1]
+        self._hospital_db[patient_index] = self._calculate_next_status(patient_index)
 
     def status_down(self, patient_id: int):
         patient_index = self._convert_patient_id_to_patient_index(patient_id)
@@ -62,10 +72,7 @@ class Hospital:
 
         if not self.can_status_down(patient_id):
             raise PatientStatusTooLowError
-
-        current_status_index = list(self._patient_statuses).index(self._hospital_db[patient_index])
-        new_status_id = list(self._patient_statuses)[current_status_index -1]
-        self._hospital_db[patient_index] = new_status_id
+        self._hospital_db[patient_index] = self._calculate_previous_status(patient_index)
 
     def discharge(self, patient_id: int):
         patient_index = self._convert_patient_id_to_patient_index(patient_id)

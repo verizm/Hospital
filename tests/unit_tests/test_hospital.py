@@ -47,6 +47,7 @@ class TestHospital:
         hospital = Hospital([100, None, 200], {100: "Тяжело болен", 200: "Болен", 300: "Здоров"})
 
         hospital.status_down(patient_id=3)
+
         assert hospital._hospital_db == [100, None, 100]
 
     def test_status_down_when_status_too_low(self):
@@ -56,6 +57,16 @@ class TestHospital:
             hospital.status_down(patient_id=1)
 
         assert hospital._hospital_db == [10, 20]
+
+    def test_calculate_next_status(self):
+        hospital = Hospital([10, 30], {10: "Тяжело болен", 20: "Болен", 30: "Здоров"})
+        status_id = hospital._calculate_next_status(patient_index=0)
+        assert status_id == 20
+
+    def test_calculate_previous_status(self):
+        hospital = Hospital([20, 30], {10: "Тяжело болен", 20: "Болен", 30: "Здоров"})
+        status_id = hospital._calculate_previous_status(patient_index=0)
+        assert status_id == 10
 
     def test_calculate_count_current_patients(self):
         hospital = make_hospital([None, 1, None, 0, 1, None])
@@ -88,9 +99,7 @@ class TestHospital:
 
     def test_convert_status_value_to_status_id(self):
         hospital = make_hospital([2, 2, 1])
-
         status_id = hospital._convert_status_value_to_status_id("Болен")
-
         assert status_id == 1
 
     def test_convert_status_value_to_status_id_when_status_is_not_exists(self):
